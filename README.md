@@ -5,28 +5,30 @@ YouTubeから動画や音声をダウンロードして、
 
 - 音声用のpodcastチャンネル
 - 動画用のpodcastチャンネル
-- podcast化しない動画・音声のディレクトリ保存
-
-上記のように振り分けて、podcast用のrssを自動生成。
-
+- podcast化しない動画・音声のディレクトリ保存  
+podcast用のrssを自動生成。
 
 ## 設定
 
 ### ローカルWebサーバーを立ち上げる。
 
 ### ディレクトリを構成する
-任意のディレクトリを生成し[STR_DIR]に設定  
-[STR_DIR]内を、以下構成で生成  
+[STR_DIR]をyoutubeディレクトリで設定  
 ```
--podcast -movie
-         -audio
--audio
--movie
+youtube
+├── audio
+├── movie
+├── podcast
+│   ├── audio
+│   ├── movie
+│   ├── thumb_audio.png
+│   └── thumb_movie.png
+└── tmp
 ```
 
-Webサーバーの公開ディレクトリ以下にpodcastディレクトリを設定しローカル公開。  
-以下のようにシンボリックリンクさせるか、
-もしくは公開ディレクトリを[STR_DIR]とする。
+Webサーバーの公開ディレクトリ以下にpodcastディレクトリを設定しローカル公開する。  
+シンボリックリンクさせるか、
+公開ディレクトリを[STR_DIR]とする。
 
 ```
 Webサーバー
@@ -38,9 +40,11 @@ Webサーバー
 ```
 
 ### podcast用のサムネイル画像を用意。
-- 音声:[STR_DIR]/podcast/thumb_audio.png
-- 動画:[STR_DIR]/podcast/thumb_movie.png
+- 音声用:[STR_DIR]/podcast/thumb_audio.png
+- 動画用:[STR_DIR]/podcast/thumb_movie.png
 
+### git clone後
+WORK_DIR,STR_DIR等を環境に応じて書き換える
 
 ### youtube-dlのインストール
 
@@ -60,13 +64,8 @@ sudo pip3 install -U youtube-dl
 
 
 ## 使用方法
-1. git clone後、  
-   WORK_DIR,STR_DIR等を環境に応じて書き換える
 
-2. localサーバーに専用ディレクトリを設定  
-   /var/www/html/podcast
-
-3. CLIにてコマンド入力
+### CLIにてコマンド入力
 ```
 ./rec_youtube.sh [TYPE] [POD] [URL]
 ```
@@ -95,22 +94,20 @@ RSSを生成
 - youtube プレイリストのURL  
   プレイリストURLの場合、TYPEで-list形式を指定する必要がある。
 
-4. ダウンロード後
+### ダウンロード後
 - ポッドキャスト化した場合  
-STR_DIRのpodcastディレクトリにそれぞれ保存され、
-それぞれRSSが生成される。
+[STR_DIR]/podcastにファイル保存され、それぞれRSS生成される。
 
 - ポッドキャスト化しない場合  
-音声、動画ファイルはSTR_DIRのaudio,movie内に保存
+[STR_DIR]内のディレクトリにそれぞれ保存
 
-5. iphone等にpodcast登録  
+### iphone等にpodcast登録  
 動画、音声と、それぞれpodcastチャンネル化される。  
 以下の、URLをiphoneのpodcastに登録する
 - 音声チャンネル  
 http://localhost/podcast/audio.rss
 - 動画チャンネル  
 http://localhost/podcast/movie.rss
-
 
 
 ## 環境
