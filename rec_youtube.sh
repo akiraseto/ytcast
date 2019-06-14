@@ -44,9 +44,11 @@ elif [ $TYPE = movie ]; then
 elif [ $TYPE = audio-list ]; then
     #再生リストの場合（音声）
     OPT="${COMMON} ${AUDIO} ${LIST}"
+    URL=${URL//v=*\&/}
 elif [ $TYPE = movie-list ]; then
     #再生リストの場合（動画）
     OPT="${COMMON} ${MOVIE} ${LIST}"
+    URL=${URL//v=*\&/}
 else
     echo "Error type"
 fi
