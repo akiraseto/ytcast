@@ -15,8 +15,8 @@ WORK_DIR="${HOME}/youtube"
 
 #PODCAST化
 HOST_IP=`hostname -I | cut -f1 -d' '` # eth0
-TITLE_AUDIO="YOUTUBEの音声"
-TITLE_MOVIE="YOUTUBEの動画"
+TITLE_AUDIO="YOUTUBE音声"
+TITLE_MOVIE="YOUTUBE動画"
 DOC_ROUTE="/var/www/html/podcast"
 URL_AUDIO="podcast/audio"
 URL_MOVIE="podcast/movie"
@@ -29,8 +29,10 @@ COMMON="--no-mtime -o %(title)s.%(ext)s "
 AUDIO="-f bestaudio[ext=m4a]"
 
 #動画の場合
-MOVIE="-f bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best"
-#todo:上限決める？キレイすぎて容量重いのがある
+#最高品質
+#MOVIE="-f bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best"
+#iphone7(1334*750)での最良品質
+MOVIE="-f bestvideo[ext=mp4][height=750]+bestaudio[ext=m4a]/best[ext=mp4]/best"
 
 #再生リストの場合
 LIST="-i"
@@ -44,9 +46,11 @@ elif [ $TYPE = movie ]; then
 elif [ $TYPE = audio-list ]; then
     #再生リストの場合（音声）
     OPT="${COMMON} ${AUDIO} ${LIST}"
+    URL=${URL//v=*\&/}
 elif [ $TYPE = movie-list ]; then
     #再生リストの場合（動画）
     OPT="${COMMON} ${MOVIE} ${LIST}"
+    URL=${URL//v=*\&/}
 else
     echo "Error type"
 fi
@@ -57,8 +61,8 @@ cd $STR_DIR/tmp
 #youtubeをDL
 youtube-dl $OPT $URL
 
-#リネーム
-#todo: 必要ないかも。保留
+#タイトル名の&,スペースを削除
+rename 's/(\&|　| )/_/g' ./*.mp4
 
 #ファイル移動と、podcast化
 if [ $POD = "pod-on" ]; then
@@ -76,7 +80,6 @@ if [ $POD = "pod-on" ]; then
 
         #rss生成
         ruby $WORK_DIR/makepodcast.rb $TITLE_MOVIE http://$HOST_IP/$URL_MOVIE/ $DOC_ROUTE/movie > $DOC_ROUTE/movie.rss
-
     fi
 
 elif [ $POD = pod-off ]; then

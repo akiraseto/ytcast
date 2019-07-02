@@ -67,8 +67,11 @@ sudo pip3 install -U youtube-dl
 
 ### CLIにてコマンド入力
 ```
-./rec_youtube.sh [TYPE] [POD] [URL]
+./rec_youtube.sh [TYPE] [POD] "[URL]"
 ```
+
+URLは""でクォーティングすること
+&文字対応
 
 [TYPE]
 保存したいフォーマットを指定。
