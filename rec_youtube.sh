@@ -93,4 +93,3 @@ elif [ $POD = pod-off ]; then
 else
     echo "エラー"
 fi
-
