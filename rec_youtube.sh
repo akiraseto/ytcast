@@ -63,6 +63,7 @@ youtube-dl $OPT $URL
 
 #タイトル名の&,スペースを削除
 rename 's/(\&|　| )/_/g' ./*.mp4
+rename 's/(\&|　| )/_/g' ./*.m4a
 
 #ファイル移動と、podcast化
 if [ $POD = "pod-on" ]; then
