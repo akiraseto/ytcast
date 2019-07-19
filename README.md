@@ -67,21 +67,20 @@ sudo pip3 install -U youtube-dl
 
 ### CLIにてコマンド入力
 ```
-./rec_youtube.sh [TYPE] [POD] "[URL]"
+./rec_youtube.sh TYPE POD "URL" [DATE]
 ```
 
 URLは""でクォーティングすること
 &文字対応
 
-[TYPE]
+#### TYPE
 保存したいフォーマットを指定。
 
 - movie  :動画ファイルでダウンロード
 - audio  :音声ファイルでダウンロード
-- movie-list  :プレイリストを動画ファイルでダウンロード
-- audio-list  :プレイリストを音声ファイルでダウンロード
+※movie,audioでもプレイリストでダウンロード可に変更
 
-[POD]
+#### POD
 ポッドキャストにするか否か
 
 - pod-on  
@@ -90,12 +89,18 @@ RSSを生成
 - pod-off  
 動画、音声用のディレクトリにファイルを移動のみ
 
-[URL]
+#### URL
 ダウンロードしたいyoutubeのURL
 
 - youtube動画のURL
 - youtube プレイリストのURL  
   プレイリストURLの場合、TYPEで-list形式を指定する必要がある。
+
+#### DATE
+オプション。必須ではない。  
+日付を入力するとその日以降にアップロードされた動画だけをDL。  
+8桁の数字を入力  
+例:2019年7月3日 → 20190703
 
 ### ダウンロード後
 - ポッドキャスト化した場合  
